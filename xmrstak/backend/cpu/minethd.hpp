@@ -35,7 +35,7 @@ private:
 
 	minethd(miner_work& pWork, size_t iNo, int iMultiway, bool no_prefetch, int64_t affinity);
 
-	template<size_t N>
+	template<uint32_t N>
 	void multiway_work_main();
 
 	template<size_t N>
@@ -47,11 +47,8 @@ private:
 	void quad_work_main();
 	void penta_work_main();
 
-	void consume_work();
-
 	uint64_t iJobNo;
 
-	static miner_work oGlobalWork;
 	miner_work oWork;
 
 	std::promise<void> order_fix;
@@ -65,4 +62,4 @@ private:
 };
 
 } // namespace cpu
-} // namepsace xmrstak
+} // namespace xmrstak

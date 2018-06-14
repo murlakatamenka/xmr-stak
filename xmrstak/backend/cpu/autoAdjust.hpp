@@ -36,7 +36,10 @@ public:
 	bool printConfig()
 	{
 
-		const size_t hashMemSizeKB = cn_select_memory(::jconf::inst()->GetMiningAlgo()) / 1024u;
+		const size_t hashMemSizeKB = std::max(
+			cn_select_memory(::jconf::inst()->GetCurrentCoinSelection().GetDescription(1).GetMiningAlgo()),
+			cn_select_memory(::jconf::inst()->GetCurrentCoinSelection().GetDescription(1).GetMiningAlgoRoot())
+		) / 1024u;
 		const size_t halfHashMemSizeKB = hashMemSizeKB / 2u;
 
 		configEditor configTpl{};
@@ -49,7 +52,7 @@ public:
 
 		std::string conf;
 
-		
+
 		if(!detectL3Size() || L3KB_size < halfHashMemSizeKB || L3KB_size > (halfHashMemSizeKB * 2048u))
 		{
 			if(L3KB_size < halfHashMemSizeKB || L3KB_size > (halfHashMemSizeKB * 2048))
@@ -124,7 +127,7 @@ private:
 
 			if(get_masked(cpu_info[0], 7, 5) != 3)
 			{
-				printer::inst()->print_msg(L0, "Autoconf failed: Couln't find L3 cache page.");
+				printer::inst()->print_msg(L0, "Autoconf failed: Couldn't find L3 cache page.");
 				return false;
 			}
 
@@ -172,4 +175,4 @@ private:
 };
 
 } // namespace cpu
-} // namepsace xmrstak
+} // namespace xmrstak
